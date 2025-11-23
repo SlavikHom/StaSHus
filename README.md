@@ -39,7 +39,7 @@
 
 ```mermaid
 graph TD
-    Client[Client / Postman] -->|HTTP| Gateway[API Gateway :8080]
+    Client[Client] -->|HTTP| Gateway[API Gateway :8080]
     Gateway -->|Auth| User[User Service :8081]
     Gateway -->|Manage| Server[Server Service :8082]
     Gateway -->|History| Notif[Notification Service :8084]
@@ -72,6 +72,10 @@ graph TD
 ### 🖥️ Frontend
 
 * [ ] **Web Dashboard:** Разработка SPA (Single Page Application) на React/Vue для визуализации списка серверов и доступности.
+
+### 💾 Оптимизация и Производительность
+
+* [ ] **Caching (Redis):** Внедрение Redis для кэширования часто запрашиваемых данных, таких как информация о пользователях и конфигурация отслеживаемых серверов, с целью снижения нагрузки на основную PostgreSQL базу данных.
 
 ### 🔔 Система уведомлений (Smart Alerts)
 
@@ -110,7 +114,7 @@ cd stashus
 docker-compose up -d
 ```
 
-Это поднимет **PostgreSQL**, **RabbitMQ** и **Redis**.
+Это поднимет **PostgreSQL** и **RabbitMQ**.
 
 3. Сборка и запуск сервисов
 

@@ -100,7 +100,7 @@ graph TD
 1. Клонирование репозитория
 
 ```bash
-git clone [https://github.com/your-username/stashus.git](https://github.com/your-username/stashus.git)
+git clone https://github.com/SlavikHom/StaSHus.git
 cd stashus
 ```
 

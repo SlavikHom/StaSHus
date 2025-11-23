@@ -151,7 +151,7 @@ curl -X POST http://localhost:8080/auth/signin \
 curl -X POST http://localhost:8080/servers \
 -H "Authorization: Bearer <YOUR_JWT_TOKEN>" \
 -H "Content-Type: application/json" \
--d '{"address": "google.com", "checkInterval": 30}'
+-d '{"address": "google.com"}'
 ```
 
 3. Просмотр истории

@@ -108,18 +108,20 @@ git clone https://github.com/SlavikHom/StaSHus.git
 cd stashus
 ```
 
-2. Запуск инфраструктуры
+2. Запуск системы
 
 ```bash
 docker-compose up -d
 ```
 
-Это поднимет **PostgreSQL** и **RabbitMQ**.
+Это поднимет **PostgreSQL**, **RabbitMQ** и **все микросервисы**.
 
-3. Сборка и запуск сервисов
+3. Проверка статуса
+   
+Убедитесь, что все 8 контейнеров запущены и работают
 
 ```bash
-mvn spring-boot:run
+docker ps
 ```
 
 ---

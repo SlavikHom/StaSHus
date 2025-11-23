@@ -27,4 +27,4 @@ spring:
                 - AuthenticationFilter
 
 jwt:
-  secret: ${JWT_SECRET:"jdhekfi1bn4242dkdksorokdvabratuhaKeMeroVskayaoblast42VSEMNASHIMs23oD3Kx2tL8zG9gA7R0yX4cE5vF1bI6uH0j"}
+  secret: ${JWT_SECRET}

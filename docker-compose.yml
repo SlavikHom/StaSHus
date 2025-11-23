@@ -1,0 +1,137 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: stashus-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./docker-init/init-schemas.sql:/docker-entrypoint-initdb.d/init-schemas.sql
+    networks:
+      - stashus-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: stashus-pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@stashus.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - stashus-net
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: stashus-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - stashus-net
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  api-gateway:
+    build: ./API-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-service
+    environment:
+      - JWT_SECRET=jdhekfi1bn4242dkdksorokdvabratuhaKeMeroVskayaoblast42VSEMNASHIMs23oD3Kx2tL8zG9gA7R0yX4cE5vF1bI6uH0j
+    networks:
+      - stashus-net
+
+  user-service:
+    build: ./User-service
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/user_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - APP_SECURITY_SECRET=jdhekfi1bn4242dkdksorokdvabratuhaKeMeroVskayaoblast42VSEMNASHIMs23oD3Kx2tL8zG9gA7R0yX4cE5vF1bI6uH0j
+      - APP_SECURITY_LIFETIME=3600000
+    networks:
+      - stashus-net
+
+  server-service:
+    build: ./Server-Service
+    container_name: server-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/server_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    networks:
+      - stashus-net
+
+  ping-worker:
+    build: ./Ping-Worker
+    container_name: ping-worker
+    ports:
+      - "8083:8083"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/server_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+    networks:
+      - stashus-net
+
+  notification-service:
+    build: ./Notification-Service
+    container_name: notification-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/server_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    networks:
+      - stashus-net
+
+networks:
+  stashus-net:
+    driver: bridge

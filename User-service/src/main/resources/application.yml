@@ -15,7 +15,7 @@ spring:
 
 app:
   security:
-    secret: ${APP_SECURITY_SECRET:"jdhekfi1bn4242dkdksorokdvabratuhaKeMeroVskayaoblast42VSEMNASHIMs23oD3Kx2tL8zG9gA7R0yX4cE5vF1bI6uH0j"}
+    secret: ${APP_SECURITY_SECRET}
     lifetime: ${APP_SECURITY_LIFETIME:86400000}
 
 server:

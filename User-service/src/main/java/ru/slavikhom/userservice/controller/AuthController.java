@@ -41,7 +41,7 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         user.setRole("USER");
         userRepository.save(user);
-        return ResponseEntity.ok("Success, baby");
+        return ResponseEntity.ok("OK");
     }
 
     @PostMapping("/signin")

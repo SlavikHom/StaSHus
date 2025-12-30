@@ -4,8 +4,6 @@ services:
   postgres:
     image: postgres:15-alpine
     container_name: stashus-postgres
-    ports:
-      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -38,7 +36,6 @@ services:
     image: rabbitmq:3-management-alpine
     container_name: stashus-rabbitmq
     ports:
-      - "5672:5672"
       - "15672:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=guest
@@ -66,8 +63,6 @@ services:
   user-service:
     build: ./User-service
     container_name: user-service
-    ports:
-      - "8081:8081"
     depends_on:
       postgres:
         condition: service_healthy
@@ -83,8 +78,6 @@ services:
   server-service:
     build: ./Server-Service
     container_name: server-service
-    ports:
-      - "8082:8082"
     depends_on:
       postgres:
         condition: service_healthy
@@ -98,8 +91,6 @@ services:
   ping-worker:
     build: ./Ping-Worker
     container_name: ping-worker
-    ports:
-      - "8083:8083"
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -117,8 +108,6 @@ services:
   notification-service:
     build: ./Notification-Service
     container_name: notification-service
-    ports:
-      - "8084:8084"
     depends_on:
       rabbitmq:
         condition: service_healthy

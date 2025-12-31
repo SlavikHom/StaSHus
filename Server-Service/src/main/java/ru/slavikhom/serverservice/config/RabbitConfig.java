@@ -1,7 +1,8 @@
-package ru.slavikhom.pingworker.config;
+package ru.slavikhom.serverservice.config;
 
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitConfig {
     public static final String QUEUE_TASKS = "ping_tasks";
     public static final String QUEUE_RESULTS = "ping_results";
+    public static final String QUEUE_NOTIFICATIONS = "status_notifications";
 
     @Bean
     public Queue tasksQueue() {
@@ -21,7 +23,7 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Jackson2JsonMessageConverter converter() {
-        return new Jackson2JsonMessageConverter();
+    public MessageConverter converter() {
+        return new JacksonJsonMessageConverter();
     }
 }

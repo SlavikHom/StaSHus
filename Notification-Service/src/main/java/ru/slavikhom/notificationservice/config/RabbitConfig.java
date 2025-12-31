@@ -26,7 +26,7 @@ public class RabbitConfig {
         DefaultClassMapper classMapper = new DefaultClassMapper();
         classMapper.setTrustedPackages("*");
         Map<String, Class<?>> idMapping = new HashMap<>();
-        idMapping.put("ru.slavikhom.pingworker.dto.StatusChangeMessage", StatusChangeMessage.class);
+        idMapping.put("ru.slavikhom.serverservice.dto.StatusChangeMessage", StatusChangeMessage.class);
         classMapper.setIdClassMapping(idMapping);
         converter.setClassMapper(classMapper);
         return converter;

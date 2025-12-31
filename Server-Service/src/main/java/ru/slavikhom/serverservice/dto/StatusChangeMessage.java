@@ -1,9 +1,9 @@
-package ru.slavikhom.pingworker.dto;
+package ru.slavikhom.serverservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.slavikhom.pingworker.model.ServerStatus;
+import ru.slavikhom.serverservice.model.ServerStatus;
 
 @Data
 @AllArgsConstructor

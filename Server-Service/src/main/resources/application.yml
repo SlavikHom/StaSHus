@@ -5,7 +5,7 @@ spring:
   application:
     name: server-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/server_db
+    url: jdbc:postgresql://postgres:5432/server_db
     username: postgres
     password: postgres
   jpa:

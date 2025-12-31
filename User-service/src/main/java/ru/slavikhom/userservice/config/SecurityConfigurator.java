@@ -1,5 +1,6 @@
 package ru.slavikhom.userservice.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,16 +13,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.slavikhom.userservice.security.jwt.TokenFilter;
+import ru.slavikhom.userservice.security.jwt.IdentityFilter;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfigurator {
-    private final TokenFilter tokenFilter;
-
-    public SecurityConfigurator(TokenFilter tokenFilter) {
-        this.tokenFilter = tokenFilter;
-    }
+    private final IdentityFilter identityFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -41,10 +39,9 @@ public class SecurityConfigurator {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/users/me").authenticated()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(identityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

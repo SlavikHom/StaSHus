@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import ru.slavikhom.userservice.security.UserDetailsImpl;
 
@@ -21,27 +22,22 @@ public class JwtCore {
 
     public String generateToken(Authentication authentication) {
         UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
+
         SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         Date expirationDate = new Date(new Date().getTime() + lifetime);
+
+        String role = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElse("USER");
 
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .claim("id", userDetails.getId())
-                .claim("role", userDetails.getAuthorities().toString())
+                .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(expirationDate)
                 .signWith(key, Jwts.SIG.HS256)
                 .compact();
-    }
-
-    public String getNameFromJwt(String token) {
-        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-
-        return Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
     }
 }

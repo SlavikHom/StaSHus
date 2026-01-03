@@ -6,7 +6,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import ru.slavikhom.notificationservice.dto.StatusChangeMessage;
 import ru.slavikhom.notificationservice.model.NotificationEvent;
-import ru.slavikhom.notificationservice.repository.NotificationRepository;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @RequiredArgsConstructor
 public class NotificationListener {
-    private final NotificationRepository repository;
+    private final NotificationService service;
 
     @RabbitListener(queues = "status_notifications")
     public void handleMessage(StatusChangeMessage message) {
@@ -32,6 +31,6 @@ public class NotificationListener {
                 .timestamp(LocalDateTime.now())
                 .build();
 
-        repository.save(event);
+        service.saveNotification(event);
     }
 }

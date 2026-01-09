@@ -26,5 +26,40 @@ spring:
               filters:
                 - AuthenticationFilter
 
+            - id: user-service-docs
+              uri: http://user-service:8081
+              predicates:
+                - Path=/v3/api-docs/user-service
+              filters:
+                - RewritePath=/v3/api-docs/user-service, /v3/api-docs
+
+            - id: server-service-docs
+              uri: http://server-service:8082
+              predicates:
+                - Path=/v3/api-docs/server-service
+              filters:
+                - RewritePath=/v3/api-docs/server-service, /v3/api-docs
+
+            - id: notification-service-docs
+              uri: http://notification-service:8084
+              predicates:
+                - Path=/v3/api-docs/notification-service
+              filters:
+                - RewritePath=/v3/api-docs/notification-service, /v3/api-docs
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: User Service
+        url: /v3/api-docs/user-service
+      - name: Server Service
+        url: /v3/api-docs/server-service
+      - name: Notification Service
+        url: /v3/api-docs/notification-service
+
 jwt:
   secret: ${JWT_SECRET}

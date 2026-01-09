@@ -3,10 +3,11 @@
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Java](https://img.shields.io/badge/Java-21-orange?style=flat-square&logo=java)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5__4.0-green?style=flat-square&logo=springboot)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0-green?style=flat-square&logo=springboot)
 ![Docker](https://img.shields.io/badge/Docker-Enabled-blue?style=flat-square&logo=docker)
 ![RabbitMQ](https://img.shields.io/badge/RabbitMQ-Messaging-orange?style=flat-square&logo=rabbitmq)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?style=flat-square&logo=postgresql)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=flat-square&logo=swagger&logoColor=white)
 
 <p>
   <b>StaSHus</b> — это отказоустойчивая распределенная система для мониторинга доступности серверов в реальном времени. 
@@ -28,7 +29,7 @@
 * ⚡ **Async Processing:** Использование RabbitMQ для неблокирующей обработки событий смены статуса.
 * 🐳 **Container Native:** Полная докеризация всех компонентов (БД, Брокер, Сервисы).
 * 📈 **Scalability:** Горизонтальное масштабирование слоя воркеров позволяет линейно наращивать производительность системы при увеличении числа отслеживаемых хостов без перегрузки основного ядра.
-
+* 📄 **OpenAPI Documentation:** Интегрированный Swagger UI для визуализации API и тестирования запросов прямо из браузера.
 ---
 
 ## 🏗 Архитектура
@@ -78,9 +79,8 @@ graph TD
 Проект активно развивается. На данный момент реализовано ядро системы (Backend MVP).
 Ниже представлены планы по расширению функционала:
 
-### 🖥️ Frontend
-
-* [ ] **Web Dashboard:** Разработка SPA (Single Page Application) на React/Vue для визуализации списка серверов и доступности.
+### 📚 Документация
+* [x] **Swagger UI:** Внедрение интерактивной документации API.
 
 ### 💾 Оптимизация и Производительность
 
@@ -137,6 +137,11 @@ docker ps
 
 ## 👾 API Reference (Примеры)
 
+Для удобного взаимодействия с системой используйте Swagger UI.
+Он доступен по адресу: **http://localhost:8080/webjars/swagger-ui/index.html** 
+
+Ниже приведены примеры "сырых" запросов для терминала:
+
 1. Регистрация и Вход
 
 ```bash
@@ -173,4 +178,4 @@ curl -X GET http://localhost:8080/notifications/history \
 
 ---
 
-<div align="center"> <sub>Developed by SlavikHom for educational purposes. 2025.</sub> </div>
+<div align="center"> <sub>Developed by SlavikHom for educational purposes. 2026.</sub> </div>
